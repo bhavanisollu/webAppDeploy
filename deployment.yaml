@@ -1,32 +1,32 @@
 apiVersion : apps/v1
 kind : Deployment
 metadata : 
-  name : springboot-hello-world-deployment
+  name : springboot-welcome-deployment
   labels :
-    app : hello-world
+    app : welcome
 spec :
   replicas : 1
   selector : 
     matchLabels :
-      app : hello-world
+      app : welcome
   template :
     metadata:
       labels:
-        app : hello-world
+        app : welcome
     spec:
       containers:
-      - name : hello-world-pod
-        image : bhavani005/springboot-hello-world
+      - name : welcome-pod
+        image : bhavani005/springboot-welcome
         ports :
         - containerPort : 80 
 ---
 apiVersion : v1
 kind : Service
 metadata:
-  name : springboot-hello-world-service
+  name : springboot-welcome-service
 spec:
   selector :
-    app : hello-world
+    app : welcome
   ports :
     - protocol : TCP 
       port : 8081

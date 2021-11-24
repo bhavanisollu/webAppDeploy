@@ -6,7 +6,6 @@ pipeline{
     stages {
         stage('Build Maven') {
             steps{
-                
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/bhavanisollu/webAppDeploy.git']]])
             
                 bat "mvn -Dmaven.test.failure.ignore=true clean package"    
@@ -30,15 +29,16 @@ pipeline{
             }
         }
         stage('Deploy to kubernetes'){
-            steps{     
-                    // kubernetesDeploy(configs:"deploymentAndService.yaml" , kubeconfigId : "jenkins-deploy-kubernetes-id")
+            steps{
+                script{
+                     // kubernetesDeploy(configs:"deploymentAndService.yaml" , kubeconfigId : "jenkins-deploy-kubernetes-id")
                     
                     try{
                     bat 'kubectl apply -f deployment.yaml --validate=false'
                     }
                     catch(error){
                     bat 'kubectl create -f deployment.yaml --validate=false'
-                    }     
+                    }  
                 }
             }
         }
